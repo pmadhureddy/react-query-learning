@@ -3,8 +3,11 @@ const fetchPosts = async () => {
   const { data } = await axios.get(
     "https://jsonplaceholder.typicode.com/posts"
   );
-  console.log(data, "services");
   return data;
 };
+const createPost = async (data) => {
+  await axios.post("https://jsonplaceholder.typicode.com/posts", data);
+  console.log("madhu");
+};
 
-export { fetchPosts };
+export { fetchPosts, createPost };
