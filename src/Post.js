@@ -6,7 +6,7 @@ import { fetchPost } from "./Services";
 function Post() {
   const { id: postId } = useParams();
   const { data: totalData } = useQuery("posts");
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isFetching } = useQuery(
     ["post", postId],
     () => fetchPost(postId),
     {
@@ -17,6 +17,9 @@ function Post() {
 
   if (isLoading) {
     return <p>Loading...</p>;
+  }
+  if (isFetching) {
+    return <p>isFetching...</p>;
   }
 
   return (
