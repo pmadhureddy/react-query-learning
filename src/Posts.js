@@ -8,19 +8,24 @@ function Posts() {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const { data } = useQuery("posts", fetchPosts, {
-    refetchOnWindowFocus: false,
-  });
-  const { mutate, isLoading: postLoading } = useMutation(
-    "add post",
-    createPost,
+  const { data, isError, error } = useQuery(
+    "posts",
+    () => fetchPosts("https://jsonplaceholder.typicod.com/posts"),
     {
-      retry: 3,
-      onSuccess: () => {
-        queryClient.invalidateQueries("posts");
-      },
+      refetchOnWindowFocus: false,
     }
   );
+  const {
+    mutate,
+    isLoading: postLoading,
+    data: postData,
+  } = useMutation("add post", createPost, {
+    retry: 3,
+    onSuccess: () => {
+      queryClient.invalidateQueries("posts");
+    },
+  });
+  console.log(isError, "postData");
 
   return (
     <div className="app">

@@ -1,14 +1,14 @@
 import React from "react";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
-import { fetchPost } from "./Services";
+import { fetchPosts } from "./Services";
 
 function Post() {
   const { id: postId } = useParams();
   const { data: totalData } = useQuery("posts");
   const { data, isLoading, isFetching } = useQuery(
     ["post", postId],
-    () => fetchPost(postId),
+    () => fetchPosts(`https://jsonplaceholder.typicode.com/posts/${postId}`),
     {
       refetchOnWindowFocus: false,
       enabled: postId ? true : false,
@@ -18,13 +18,12 @@ function Post() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  if (isFetching) {
-    return <p>isFetching...</p>;
-  }
+  // if (isFetching) {
+  //   return <p>isFetching...</p>;
+  // }
 
   return (
     <div>
-      {console.log(data, "data mADHU")}
       <h1>{data?.title}</h1>
       <p>{data?.body}</p>
       <div>
